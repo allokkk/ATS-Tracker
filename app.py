@@ -1,21 +1,19 @@
 from dotenv import load_dotenv
 
 load_dotenv()
-
+import base64
 import streamlit as st
-st.set_page_config(page_title="ATS Resume Tracker")
 import os
-from PIL import Image
 import io
+from PIL import Image 
 import pdf2image
 import google.generativeai as genai
-import base64
 
-genai.configure(api_key=os.getenv(
-    "GOOGLE_API_KEY"
-))
+st.set_page_config(page_title="ATS Resume EXpert")
 
-def get_gemini_response(input,pdf_content,prompt):
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+def get_gemini_response(input,pdf_cotent,prompt):
     model=genai.GenerativeModel('gemini-pro-vision')
     response=model.generate_content([input,pdf_content[0],prompt])
     return response.text
@@ -60,8 +58,6 @@ submit1 = st.button("Tell Me About the Resume")
 
 submit3 = st.button("Percentage match")
 
-
-
 input_prompt1 = """
  You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description. 
   Please share your professional evaluation on whether the candidate's profile aligns with the role. 
@@ -92,4 +88,7 @@ elif submit3:
     else:
         st.write("Please uplaod the resume")
 
+
+
+   
 
